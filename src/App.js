@@ -1,12 +1,10 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 function App() {
   const [player1, setPlayer1] = useState("");
   const [player2, setPlayer2] = useState("");
-  // let [player1IsWinner, setPlayer1IsWinner] = useState(false);
-  // let [player2IsWinner, setPlayer2IsWinner] = useState(false);
 
   const randomPlayer = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -23,10 +21,10 @@ function App() {
     }
   };
 
-  const handlePlay = () => {
+  const handlePlay = async () => {
     const people1 = randomPlayer(1, 80);
 
-    axios
+    await axios
       .get(`https://swapi.dev/api/people/${people1}`)
       .then((res) => {
         setPlayer1(res.data);
@@ -35,7 +33,7 @@ function App() {
 
     const people2 = randomPlayer(1, 80);
 
-    axios
+    await axios
       .get(`https://swapi.dev/api/people/${people2}`)
       .then((res) => {
         setPlayer2(res.data);
@@ -44,14 +42,19 @@ function App() {
   };
 
   findWinner(player1.height, player2.height);
-  console.log(Player1IsWinner);
+  console.log(Player1IsWinner, Player2IsWinner);
 
   return (
     <div className="container">
+      <h1 className="title">The Star Wars battle!</h1>
+      <p className="description">
+        Press play and the battle between two different Star Wars characters
+        begins!
+      </p>
       <div className="text-center">
         <button
           type="button"
-          className="btn btn-primary btn-lg m-3"
+          className="btn btn-primary btn-lg m-4"
           onClick={() => handlePlay()}
         >
           Play!
